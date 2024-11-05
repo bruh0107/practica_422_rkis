@@ -1,6 +1,11 @@
+from enum import unique
+
 from django.db import models
+from django.db.models import UniqueConstraint
 from django.urls import reverse
 import uuid
+from django.db.models import UniqueConstraint
+from django.db.models.functions import Lower
 
 # Create your models here.
 
@@ -26,6 +31,11 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
+
+    def display_genre(self):
+        return ', '.join([ genre.name for genre in self.genre.all()[:3] ])
+
+    display_genre.short_description = 'Genre'
 
 class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True,
@@ -64,3 +74,22 @@ class Author(models.Model):
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
+
+class Language(models.Model):
+    name = models.CharField(max_length=200,
+                            unique=200,
+                            help_text="Enter the book's natural language (e.g. English, French, Japanese etc.)")
+    def get_absolute_url(self):
+        return reverse('language-detail', args=[str(self.id)])
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                Lower('name'),
+                name = 'language_name_case_insensitive_unique',
+                violation_error_message = "Language already exists (case insensitive match)"
+            )
+    ]

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Главная страница{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+{% block header %}
+    <header class="header">
+        <nav>
+            <a href="{% url 'index' %}">Home</a>
+        </nav>
+    </header>
+{% endblock header %}
+{% block content %} {% endblock content %}
+</body>
+</html>

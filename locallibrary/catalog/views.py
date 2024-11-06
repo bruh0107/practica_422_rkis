@@ -2,6 +2,7 @@ from re import search
 
 from django.http import Http404
 from django.shortcuts import render
+from django.template.defaultfilters import title
 from django.views import generic
 
 # Create your views here.
@@ -18,7 +19,8 @@ def index(request):
     num_instances_available = BookInstance.objects.filter(status__exact='a').count()
     num_authors=Author.objects.count()
     num_genres = Genre.objects.count()
-    num_books_with_word = Book.objects.filter(title__icontains='cat').count()
+    num_visits = request.session.get('num_visits', 0)
+    request.session[num_visits] = num_visits + 1
 
     return render(
         request,
@@ -29,22 +31,17 @@ def index(request):
             'num_instances_available': num_instances_available,
             'num_authors': num_authors,
             'num_genres': num_genres,
-            'num_books_with_word': num_books_with_word
+            'num_visits': num_visits
         }
     )
 
 class BookListView(generic.ListView):
     model = Book
-    context_object_name = 'my_book_list'
-    template_name = 'books/my_arbitrary_template_name_list.html'
+    paginate_by = 10
 
-    def get_queryset(self):
-        return Book.objects.filter(title__icontains='war')[:5]
-
-    def get_context_data(self, **kwargs):
-        context = super(BookListView, self).get_context_data(**kwargs)
-        context['some_sata'] = 'This is just some data'
-
+class AuthorListView(generic.ListView):
+    model = Author
+    paginate_by = 10
 
 def book_detail_view(request, pk):
     try:
@@ -60,3 +57,6 @@ def book_detail_view(request, pk):
 
 class BookDetailView(generic.DetailView):
     model = Book
+
+class AuthorDetailView(generic.DetailView):
+    model = Author

@@ -3,22 +3,23 @@
 {% block title %}<title> Home </title>{% endblock %}
 
 {% block content %}
-<h1>Local Library Home</h1>
+<h1>Local Library - Главная страница</h1>
 <p>
-    Welcome to <em>LocalLibrary</em>,
-    a very basic Django website developed
-    as a tutorial example on the Mozilla Developer Network.
+    Добро пожаловать в <em>LocalLibrary</em>,
+    очент простой сайт Django, разработанный как пример для обучения.
 </p>
 
-<h2>Dynamic content</h2>
+<h2>Контент в динамике</h2>
 
-<p>The library has the following record counts:</p>
+<p>В библиотеке имеется следующее количество записей:</p>
 <ul>
-    <li><strong>Books:</strong> {{ num_books }}</li>
-    <li><strong>Copies:</strong> {{ num_instance }}</li>
-    <li><strong>Copies available:</strong> {{ num_instance_available }}</li>
-    <li><strong>Authors:</strong> {{ num_authors }}</li>
-    <li><strong>Genres:</strong> {{ num_genres }}</li>
-    <li><strong>Books with "word"</strong> {{ num_books_with_word }}</li>
+    <li><strong>Книги: </strong> {{ num_books }}</li>
+    <li><strong>Копии: </strong> {{ num_instances }}</li>
+    <li><strong>Доступные копии: </strong> {{ num_instances_available }}</li>
+    <li><strong>Авторы: </strong> {{ num_authors }}</li>
+    <li><strong>Жанры: </strong> {{ num_genres }}</li>
 </ul>
+<p>
+    Вы посетили эту страницу
+</p>
 {% endblock %}

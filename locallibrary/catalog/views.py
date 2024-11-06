@@ -16,7 +16,7 @@ def index(request):
 
     return render(
         request,
-        'index.html',
+        'main/index.html',
         context={
             'num_books': num_books,
             'num_instances': num_instances,

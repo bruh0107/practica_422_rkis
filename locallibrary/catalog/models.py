@@ -47,10 +47,10 @@ class BookInstance(models.Model):
     due_back = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (
-        ('m', 'Maintenance'),
-        ('o', 'On load'),
-        ('a', 'Available'),
-        ('r', 'Reserved'),
+        ('m', 'Редактируется'),
+        ('o', 'Загружено'),
+        ('a', 'Доступно'),
+        ('r', 'Зарезервировано'),
     )
 
     status = models.CharField(max_length=1,

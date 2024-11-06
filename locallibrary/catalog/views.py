@@ -20,7 +20,8 @@ def index(request):
     num_authors=Author.objects.count()
     num_genres = Genre.objects.count()
     num_visits = request.session.get('num_visits', 0)
-    request.session[num_visits] = num_visits + 1
+    num_visits += 1
+    request.session['num_visits'] = num_visits
 
     return render(
         request,

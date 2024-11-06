@@ -39,5 +39,10 @@
         <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
         {% endfor %}
     </div>
+    <br>
+    <div>
+        <a href="{% url 'book-update' book.pk %}">Изменить книгу</a><br>
+        <a href="{% url 'book-delete' book.pk %}">Удалить книгу</a>
+    </div>
 {% endblock %}
 

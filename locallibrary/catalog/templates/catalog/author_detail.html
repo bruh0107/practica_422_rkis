@@ -19,4 +19,10 @@
         </div>
     {% endfor %}
 
+    <br>
+    <div>
+        <a href="{% url 'author-update' author.pk %}">Изменить автора</a><br>
+        <a href="{% url 'author-delete' author.pk %}">Удалить автора</a>
+    </div>
+
 {% endblock %}

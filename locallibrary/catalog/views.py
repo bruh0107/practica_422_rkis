@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render
 from django.template.defaultfilters import title
+from django.utils.translation.trans_real import catalog
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -24,6 +25,7 @@ def index(request):
     num_visits = request.session.get('num_visits', 0)
     num_visits += 1
     request.session['num_visits'] = num_visits
+    user_librarian = request.user.groups.filter(name='Librarians').exists()
 
     return render(
         request,
@@ -34,7 +36,8 @@ def index(request):
             'num_instances_available': num_instances_available,
             'num_authors': num_authors,
             'num_genres': num_genres,
-            'num_visits': num_visits
+            'num_visits': num_visits,
+            'user_librarian': user_librarian,
         }
     )
 
@@ -72,3 +75,11 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+class AllLoanedBooks(LoginRequiredMixin, generic.ListView):
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')

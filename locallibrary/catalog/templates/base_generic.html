@@ -22,6 +22,19 @@
                     <li><a href="{% url 'index' %}">Главная</a></li>
                     <li><a href="{% url 'books' %}">Все книги</a></li>
                     <li><a href="{% url 'author' %}">Все авторы</a></li>
+
+                    {% if user.is_authenticated %}
+                        <li>Пользователь: {{ user.get_username }}</li>
+                        <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post">
+                               {% csrf_token %}
+                                <button type="submit">Выйти</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}?next={{request.path}}">Войти</a></li>
+                    {% endif %}
                 </ul>
             {% endblock %}
         </div>

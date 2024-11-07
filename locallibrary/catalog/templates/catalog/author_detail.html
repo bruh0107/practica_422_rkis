@@ -20,9 +20,11 @@
     {% endfor %}
 
     <br>
-    <div>
-        <a href="{% url 'author-update' author.pk %}">Изменить автора</a><br>
-        <a href="{% url 'author-delete' author.pk %}">Удалить автора</a>
-    </div>
+    {% if user.is_authenticated and user_librarian or user.is_staff %}
+        <div>
+            <a href="{% url 'author-update' author.pk %}">Изменить автора</a><br>
+            <a href="{% url 'author-delete' author.pk %}">Удалить автора</a>
+        </div>
+    {% endif %}
 
 {% endblock %}

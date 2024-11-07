@@ -40,9 +40,12 @@
         {% endfor %}
     </div>
     <br>
-    <div>
-        <a href="{% url 'book-update' book.pk %}">Изменить книгу</a><br>
-        <a href="{% url 'book-delete' book.pk %}">Удалить книгу</a>
-    </div>
+    {% if user.is_authenticated and user_librarian or user.is_staff %}
+        <div>
+            <a href="{% url 'book-update' book.pk %}">Изменить книгу</a><br>
+            <a href="{% url 'book-delete' book.pk %}">Удалить книгу</a>
+        </div>
+    {% endif %}
+
 {% endblock %}
 

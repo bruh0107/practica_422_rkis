@@ -1,6 +1,6 @@
 from re import search
 
-from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.decorators import permission_required
 from django.http import Http404
 from django.shortcuts import render
 from django.template.defaultfilters import title
@@ -16,11 +16,6 @@ import datetime
 
 from .forms import RenewBookModelForm
 from .models import Book, BookInstance, Author, Genre, Language
-
-all_books = Book.objects.all()
-wild_books = Book.objects.filter(title__contains='wild')
-number_wild_books = Book.objects.filter(title__contains='wild').count()
-books_containing_genre = Book.objects.filter(genre__name__icontains='fiction')
 
 def index(request):
     num_books = Book.objects.all().count()

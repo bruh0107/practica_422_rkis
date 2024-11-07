@@ -40,12 +40,15 @@
         {% endfor %}
     </div>
     <br>
-    {% if user.is_authenticated and user_librarian or user.is_staff %}
+    {% if user.is_staff %}
         <div>
-            <a href="{% url 'book-update' book.pk %}">Изменить книгу</a><br>
-            <a href="{% url 'book-delete' book.pk %}">Удалить книгу</a>
+            {% if perms.catalog.change_author %}
+                <a href="{% url 'book-update' book.pk %}">Изменить книгу</a><br>
+            {% endif %}
+
+            {% if perms.catalog.delete_author %}
+                <a href="{% url 'book-delete' book.pk %}">Удалить книгу</a>
+            {% endif %}
         </div>
     {% endif %}
-
 {% endblock %}
-

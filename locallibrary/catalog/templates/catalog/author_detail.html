@@ -20,10 +20,18 @@
     {% endfor %}
 
     <br>
-    {% if user.is_authenticated and user_librarian or user.is_staff %}
+    {% if user.is_staff %}
         <div>
-            <a href="{% url 'author-update' author.pk %}">Изменить автора</a><br>
-            <a href="{% url 'author-delete' author.pk %}">Удалить автора</a>
+            {% if perms.catalog.change_author %}
+                <a href="{% url 'author-update' author.id %}">Изменить автора</a><br>
+            {% endif %}
+
+            {% if not author.book_set.all and perms.catalog.delete_author %}
+                <a href="{% url 'author-delete' author.id %}">Удалить автора</a>
+            {% else %}
+                <p>Вы не можете удалить автора, если у него есть книги! Сначала удалите все книги автора.</p>
+            {% endif %}
+
         </div>
     {% endif %}
 

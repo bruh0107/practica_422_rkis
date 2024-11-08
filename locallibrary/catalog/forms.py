@@ -23,4 +23,3 @@ class RenewBookModelForm(ModelForm):
         fields = ['due_back',]
         labels = { 'due_back': _('Дата продления') }
         help_text = { 'due_back': _('Введите дату между текущим моментом и 4 неделями (по умолчанию 3).'), }
-

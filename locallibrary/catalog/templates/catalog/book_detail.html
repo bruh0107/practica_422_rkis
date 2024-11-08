@@ -2,6 +2,7 @@
 
 {% block content %}
     <h1>Название: {{ book.title }}</h1>
+    <p style="position: absolute;top: 20px;right: 50px;">Корзина</p>
 
     <p><strong>Автор: </strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></p>
     <p><strong>Описание: </strong>{{ book.summary }}</p>

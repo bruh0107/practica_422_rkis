@@ -1,8 +1,10 @@
+from itertools import product
 from re import search
 
 from django.contrib.auth.decorators import permission_required, login_required
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.template.context_processors import request
 from django.template.defaultfilters import title
 from django.utils.translation.trans_real import catalog
 from django.views import generic
@@ -45,6 +47,14 @@ def index(request):
 class BookListView(generic.ListView):
     model = Book
     paginate_by = 10
+    template_name = 'catalog/book_list.html'
+
+    def get_queryset(self):
+        cart = self.request.session.get('cart', [])
+
+        cart_ids = [int(book_id) for book_id in cart]
+
+        return Book.objects.exclude(id__in=cart_ids)
 
 class AuthorListView(generic.ListView):
     model = Author
@@ -139,3 +149,17 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books')
     permission_required = 'catalog.delete_book'
+
+
+@login_required
+def add_to_cart(request, pk):
+    book_id = str(pk)
+
+    cart = request.session.get('cart', [])
+
+    if book_id not in cart:
+        cart.append(book_id)
+
+    request.session['cart'] = cart
+
+    return redirect('books')
